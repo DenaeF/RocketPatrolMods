@@ -51,6 +51,38 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 30
         }
+        //FIRE text config
+        let gameTextConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'middle',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 70
+            
+        }
+        //COMPUTER text config
+        let gameText2Config = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'middle',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 140
+            
+        }
+        //putting FIRE and COMPUTER in a certain spot
+        this.add.text(borderUISize+210 + borderPadding+50, borderUISize+20 + borderPadding*2, 'FIRE', gameTextConfig).setOrigin(0.5);
+        this.add.text(borderUISize+330 + borderPadding+50, borderUISize+20 + borderPadding*2, 'COMPUTER', gameText2Config).setOrigin(0.5);
+        
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
 
         this.gameOver = false;

@@ -12,18 +12,26 @@ class Play extends Phaser.Scene {
         this.load.image('floor', './assets/Floor.png');
         this.load.image('starfield', './assets/starfield.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('crowd', './assets/Crowd.png', {frameWidth: 640, frameHeight: 480});
     }
 
     create() {
         
+        this.anims.create({
+            key: 'crowd',
+            frames: this.anims.generateFrameNumbers('crowd', {start: 0, end: 35, first: 0}),
+            frameRate: 20,
+            repeat: -1
+        });
 
-        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0,0);
-
+        const crowd = this.add.sprite(0, 0, 640, 480, 'crowd').setOrigin(0,0);
+        crowd.play('crowd');
+        
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x0FF00).setOrigin(0,0);
        
         this.add.tileSprite(0,0, 640, 480, 'floor').setOrigin(0,0);
         
-        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height+10 - borderUISize - borderPadding, 'Guitar').setOrigin(0.5, 0);
+        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height+5 - borderUISize - borderPadding, 'Guitar').setOrigin(0.5, 0);
 
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'Note-1', 0, 30).setOrigin(0,0);
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'Note-2', 0, 20).setOrigin(0,0);
@@ -111,7 +119,7 @@ class Play extends Phaser.Scene {
         }
 
        if(!this.gameOver) { 
-        this.starfield.tilePositionX -= 4;
+        //this.starfield.tilePositionX -= 4;
         this.p1Rocket.update();
         this.ship01.update();
         this.ship02.update();

@@ -131,7 +131,7 @@ class Play extends Phaser.Scene {
         this.scoreLeft = this.add.text(borderUISize+70 + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
 
         //Timer
-        this.text = this.add.text(borderUISize+500 + borderPadding, borderUISize + borderPadding*2, this.gameTimer, TimerConfig);
+        this.text = this.add.text(borderUISize+500 + borderPadding, borderUISize + borderPadding*2, getRemainingSeconds(gameTimer), TimerConfig);
 
 
         this.gameOver = false;

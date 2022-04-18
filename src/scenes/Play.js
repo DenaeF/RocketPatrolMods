@@ -78,7 +78,24 @@ class Play extends Phaser.Scene {
                 bottom: 5,
             },
             fixedWidth: 30
+
+            
         }
+        //Timer Config
+        let TimerConfig = {
+            fontFamily: 'Arial',
+            fontSize: '28px',
+            backgroundColor: '#6E1527',
+            color: '#E9DDDF',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 50
+            
+        }
+
         //FIRE text config
         let gameTextConfig = {
             fontFamily: 'Verdana',
@@ -112,6 +129,10 @@ class Play extends Phaser.Scene {
         this.add.text(borderUISize+300 + borderPadding+50, borderUISize+20 + borderPadding*2, 'COMPUTER', gameText2Config).setOrigin(0.5);
         
         this.scoreLeft = this.add.text(borderUISize+70 + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+
+        //Timer
+        this.text = this.add.text(borderUISize+500 + borderPadding, borderUISize + borderPadding*2, this.gameTimer, TimerConfig);
+
 
         this.gameOver = false;
 

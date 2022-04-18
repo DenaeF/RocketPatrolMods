@@ -7,7 +7,6 @@ class Play extends Phaser.Scene {
     preload(){
         //newly added preloads
         this.load.image('Guitar', './assets/Guitar.png');
-        this.load.image('spark', './assets/blue.png');
         this.load.image('Note-1', './assets/Note-1.png');
         this.load.image('Note-2', './assets/Note-2.png');
         this.load.image('Note-3', './assets/Note-3.png');
@@ -16,9 +15,11 @@ class Play extends Phaser.Scene {
         this.load.image('starfield', './assets/starfield.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('crowd', './assets/Crowd.png', {frameWidth: 640, frameHeight: 480});
+        this.load.spritesheet('NoteAnims', './assets/explosion.png', {frameWidth: 24, frameHeight: 30, startFrame: 0, endFrame: 4});
     }
 
     create() {
+    
         this.background = this.sound.add('Music', {});
 
         var musicConfig = {

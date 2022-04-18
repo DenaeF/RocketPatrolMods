@@ -8,7 +8,7 @@ class Menu extends Phaser.Scene {
         this.load.image('curtainsMid', './assets/CurtainMiddle.png');
         this.load.audio('Muffled', './assets/BackgroundMuffled.mp3')
         this.load.audio('sfx_select', './assets/RiftSelect.mp3')
-        this.load.audio('sfx_explosion', './assets/explosion38.wav')
+        this.load.audio('sfx_explosion', './assets/NewExplosion.mp3')
         this.load.audio('sfx_rocket', './assets/Shoot.mp3')
         this.load.audio('Music', './assets/Rock.mp3')
     }

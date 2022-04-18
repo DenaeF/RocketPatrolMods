@@ -67,7 +67,7 @@ class Play extends Phaser.Scene {
         this.p1Score = 0;
         //color change for scores and words
         let scoreConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'Arial',
             fontSize: '28px',
             backgroundColor: '#6E1527',
             color: '#E9DDDF',
@@ -80,8 +80,8 @@ class Play extends Phaser.Scene {
         }
         //FIRE text config
         let gameTextConfig = {
-            fontFamily: 'Courier',
-            fontSize: '28px',
+            fontFamily: 'Verdana',
+            fontSize: '20px',
             backgroundColor: '#6E1527',
             color: '#E9DDDF',
             align: 'middle',
@@ -89,13 +89,13 @@ class Play extends Phaser.Scene {
                 top: 5,
                 bottom: 5,
             },
-            fixedWidth: 70
+            fixedWidth: 50
             
         }
         //COMPUTER text config
         let gameText2Config = {
-            fontFamily: 'Courier',
-            fontSize: '28px',
+            fontFamily: 'Verdana',
+            fontSize: '20px',
             backgroundColor: '#6E1527',
             color: '#E9DDDF',
             align: 'middle',
@@ -103,12 +103,12 @@ class Play extends Phaser.Scene {
                 top: 5,
                 bottom: 5,
             },
-            fixedWidth: 140
+            fixedWidth: 120
             
         }
         //putting FIRE and COMPUTER in a certain spot
         this.add.text(borderUISize+210 + borderPadding+50, borderUISize+20 + borderPadding*2, 'FIRE', gameTextConfig).setOrigin(0.5);
-        this.add.text(borderUISize+330 + borderPadding+50, borderUISize+20 + borderPadding*2, 'COMPUTER', gameText2Config).setOrigin(0.5);
+        this.add.text(borderUISize+300 + borderPadding+50, borderUISize+20 + borderPadding*2, 'COMPUTER', gameText2Config).setOrigin(0.5);
         
         this.scoreLeft = this.add.text(borderUISize+70 + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
 
@@ -125,10 +125,12 @@ class Play extends Phaser.Scene {
     update(){
 
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
+            this.background.stop();
             this.scene.restart();
         }
 
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+            this.background.stop();
             this.scene.start("menuScene");
         }
 
@@ -168,8 +170,8 @@ class Play extends Phaser.Scene {
 
         ship.alpha = 0;
 
-        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0,0);
-        boom.anims.play('explosion');
+        let boom = this.add.sprite(ship.x, ship.y, 'explode').setOrigin(0,0);
+        boom.anims.play('explode');
         boom.on('animationcomplete', () => {
             ship.reset();
             ship.alpha = 1;

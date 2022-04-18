@@ -3,8 +3,11 @@ class Play extends Phaser.Scene {
         super('playScene');
     }
 
+    
     preload(){
+        //newly added preloads
         this.load.image('Guitar', './assets/Guitar.png');
+        this.load.image('spark', './assets/blue.png');
         this.load.image('Note-1', './assets/Note-1.png');
         this.load.image('Note-2', './assets/Note-2.png');
         this.load.image('Note-3', './assets/Note-3.png');
@@ -16,7 +19,18 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        
+        this.background = this.sound.add('Music', {});
+
+        var musicConfig = {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }
+        this.background.play(musicConfig);
+        //crowd frames
         this.anims.create({
             key: 'crowd',
             frames: this.anims.generateFrameNumbers('crowd', {start: 0, end: 35, first: 0}),
@@ -27,16 +41,16 @@ class Play extends Phaser.Scene {
         const crowd = this.add.sprite(0, 0, 640, 480, 'crowd').setOrigin(0,0);
         crowd.play('crowd');
         
-        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x0FF00).setOrigin(0,0);
-       
+        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0xffb4969b).setOrigin(0,0);
+       //floor
         this.add.tileSprite(0,0, 640, 480, 'floor').setOrigin(0,0);
-        
-        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height+5 - borderUISize - borderPadding, 'Guitar').setOrigin(0.5, 0);
-
+        //new P1
+        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height-60 - borderUISize - borderPadding, 'Guitar').setOrigin(0.5, 0);
+        //new enemies
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'Note-1', 0, 30).setOrigin(0,0);
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'Note-2', 0, 20).setOrigin(0,0);
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'Note-3', 0,10).setOrigin(0,0);
-
+        //curtains border
         this.add.tileSprite(0,0, 640, 480, 'curtains').setOrigin(0,0);
 
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -51,12 +65,12 @@ class Play extends Phaser.Scene {
         });
 
         this.p1Score = 0;
-
+        //color change for scores and words
         let scoreConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            backgroundColor: '#6E1527',
+            color: '#E9DDDF',
             align: 'right',
             padding: {
                 top: 5,
@@ -68,8 +82,8 @@ class Play extends Phaser.Scene {
         let gameTextConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            backgroundColor: '#6E1527',
+            color: '#E9DDDF',
             align: 'middle',
             padding: {
                 top: 5,
@@ -82,8 +96,8 @@ class Play extends Phaser.Scene {
         let gameText2Config = {
             fontFamily: 'Courier',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            backgroundColor: '#6E1527',
+            color: '#E9DDDF',
             align: 'middle',
             padding: {
                 top: 5,
@@ -155,7 +169,7 @@ class Play extends Phaser.Scene {
         ship.alpha = 0;
 
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0,0);
-        boom.anims.play('explode');
+        boom.anims.play('explosion');
         boom.on('animationcomplete', () => {
             ship.reset();
             ship.alpha = 1;

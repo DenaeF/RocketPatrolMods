@@ -90,6 +90,13 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 9, first: 0}),
             frameRate: 30
         });
+        //Note Animation
+        this.anims.create({
+            key: 'NoteAnims',
+            frames: this.anims.generateFrameNumbers('NoteAnims', {start: 0, end: 4, first: 0}),
+            frameRate: 30
+        });
+
 
         this.p1Score = 0;
         //color change for scores and words

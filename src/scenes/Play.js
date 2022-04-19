@@ -15,7 +15,9 @@ class Play extends Phaser.Scene {
         this.load.image('starfield', './assets/starfield.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('crowd', './assets/Crowd.png', {frameWidth: 640, frameHeight: 480});
-        this.load.spritesheet('NoteAnims', './assets/explosion.png', {frameWidth: 24, frameHeight: 30, startFrame: 0, endFrame: 4});
+        this.load.spritesheet('NoteAnims', './assets/NoteAnims2.png', {frameWidth: 26, frameHeight: 69, startFrame: 0, endFrame: 6});
+        this.load.spritesheet('Note2Anims', './assets/Note2Anims.png', {frameWidth: 41, frameHeight: 69, startFrame: 0, endFrame: 7});
+        this.load.spritesheet('Note3Anims', './assets/Note3Anims.png', {frameWidth: 63, frameHeight: 69, startFrame: 0, endFrame: 8});
     }
 
     create() {
@@ -41,6 +43,27 @@ class Play extends Phaser.Scene {
 
         const crowd = this.add.sprite(0, 0, 640, 480, 'crowd').setOrigin(0,0);
         crowd.play('crowd');
+
+        this.anims.create({
+            key: 'Note1',
+            frames: this.anims.generateFrameNumbers('NoteAnims', {start: 0, end: 6, first: 0}),
+            frameRate: 15,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'Note2',
+            frames: this.anims.generateFrameNumbers('Note2Anims', {start: 0, end: 7, first: 0}),
+            frameRate: 15,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'Note3',
+            frames: this.anims.generateFrameNumbers('Note3Anims', {start: 0, end: 8, first: 0}),
+            frameRate: 10,
+            repeat: -1
+        });
         
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0xffb4969b).setOrigin(0,0);
        //floor
@@ -48,9 +71,12 @@ class Play extends Phaser.Scene {
         //new P1
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height-60 - borderUISize - borderPadding, 'Guitar').setOrigin(0.5, 0);
         //new enemies
-        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'Note-1', 0, 30).setOrigin(0,0);
-        this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'Note-2', 0, 20).setOrigin(0,0);
+        this.ship01 = new Spaceship(this, game.config.width + borderUISize*9, borderUISize*4, 'Note1', 0, 30).setOrigin(0,0);
+        this.ship01.play('Note1');
+        this.ship02 = new Spaceship(this, game.config.width + borderUISize*5, borderUISize*5 + borderPadding*2, 'Note-2', 0, 20).setOrigin(0,0);
+        this.ship02.play('Note2');
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'Note-3', 0,10).setOrigin(0,0);
+        this.ship03.play('Note3');
         //curtains border
         this.add.tileSprite(0,0, 640, 480, 'curtains').setOrigin(0,0);
 
@@ -78,13 +104,12 @@ class Play extends Phaser.Scene {
                 bottom: 5,
             },
             fixedWidth: 30
-
             
         }
         //Timer Config
         let TimerConfig = {
             fontFamily: 'Arial',
-            fontSize: '28px',
+            fontSize: '20px',
             backgroundColor: '#6E1527',
             color: '#E9DDDF',
             align: 'right',
@@ -92,7 +117,7 @@ class Play extends Phaser.Scene {
                 top: 5,
                 bottom: 5,
             },
-            fixedWidth: 50
+            fixedWidth: 80
             
         }
 
@@ -125,14 +150,10 @@ class Play extends Phaser.Scene {
             
         }
         //putting FIRE and COMPUTER in a certain spot
-        this.add.text(borderUISize+210 + borderPadding+50, borderUISize+20 + borderPadding*2, 'FIRE', gameTextConfig).setOrigin(0.5);
-        this.add.text(borderUISize+300 + borderPadding+50, borderUISize+20 + borderPadding*2, 'COMPUTER', gameText2Config).setOrigin(0.5);
+        this.add.text(borderUISize+170 + borderPadding+50, borderUISize+20 + borderPadding*2, 'FIRE', gameTextConfig).setOrigin(0.5);
+        this.add.text(borderUISize+260 + borderPadding+50, borderUISize+20 + borderPadding*2, 'COMPUTER', gameText2Config).setOrigin(0.5);
         
         this.scoreLeft = this.add.text(borderUISize+70 + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
-
-        //Timer
-        this.text = this.add.text(borderUISize+500 + borderPadding, borderUISize + borderPadding*2, getRemainingSeconds(gameTimer), TimerConfig);
-
 
         this.gameOver = false;
 
@@ -142,6 +163,9 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
+
+        this.countdown;
+        this.timer = this.add.text(borderUISize+50 + borderPadding*35, borderUISize + borderPadding*2, 'Time: ' + this.countdown, TimerConfig);
     }
 
     update(){
@@ -155,6 +179,9 @@ class Play extends Phaser.Scene {
             this.background.stop();
             this.scene.start("menuScene");
         }
+
+        //timer
+        this.timer.text = 'Time: ' + this.clock.getRemainingSeconds().toFixed(0);
 
        if(!this.gameOver) { 
         //this.starfield.tilePositionX -= 4;

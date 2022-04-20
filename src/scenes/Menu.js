@@ -4,6 +4,7 @@ class Menu extends Phaser.Scene {
     }
 
     preload() {
+        //newly added sounds or replaced
         this.load.image('curtains', './assets/Curtains.png');
         this.load.image('curtainsMid', './assets/CurtainMiddle.png');
         this.load.audio('Muffled', './assets/BackgroundMuffled.mp3')
@@ -14,6 +15,7 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
+        //sound on title screen
         this.muffled = this.sound.add('Muffled', {});
 
         var musicConfig2 = {
@@ -25,7 +27,7 @@ class Menu extends Phaser.Scene {
             delay: 0
         }
         this.muffled.play(musicConfig2);
-       
+       //color change and font change to Rules
         let menuConfig = {
             fontFamily: 'Comic Sans',
             fontSize: '28px',
@@ -39,7 +41,7 @@ class Menu extends Phaser.Scene {
             fixedWidth: 0
             
         }
-
+        //color and font change to Title of Game
         let menuConfig2 = {
             fontFamily: 'Comic Sans',
             fontSize: '28px',
@@ -52,6 +54,7 @@ class Menu extends Phaser.Scene {
             },
             fixedWidth: 0
         }
+        //added curtians to title screen
         this.add.tileSprite(0,0, 640, 480, 'curtainsMid').setOrigin(0,0);
         this.add.tileSprite(0,0, 640, 480, 'curtains').setOrigin(0,0);
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding-100, 'ROCKET PATROL MODDED', menuConfig2).setOrigin(0.5);

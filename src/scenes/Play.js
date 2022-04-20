@@ -13,7 +13,11 @@ class Play extends Phaser.Scene {
         this.load.image('curtains', './assets/Curtains.png');
         this.load.image('floor', './assets/Floor.png');
         this.load.image('starfield', './assets/starfield.png');
-        this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 69, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('explode', './assets/explosion1.png', {frameWidth: 69, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('explode2', './assets/explosion2.png', {frameWidth: 69, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('explode3', './assets/explosion3.png', {frameWidth: 69, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('explode4', './assets/explosion4.png', {frameWidth: 69, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('crowd', './assets/Crowd.png', {frameWidth: 640, frameHeight: 480});
         this.load.spritesheet('NoteAnims', './assets/NoteAnims2.png', {frameWidth: 26, frameHeight: 69, startFrame: 0, endFrame: 6});
         this.load.spritesheet('Note2Anims', './assets/Note2Anims.png', {frameWidth: 41, frameHeight: 69, startFrame: 0, endFrame: 7});
@@ -21,7 +25,7 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-    
+        //background music
         this.background = this.sound.add('Music', {});
 
         var musicConfig = {
@@ -43,7 +47,7 @@ class Play extends Phaser.Scene {
 
         const crowd = this.add.sprite(0, 0, 640, 480, 'crowd').setOrigin(0,0);
         crowd.play('crowd');
-
+        //Note animations
         this.anims.create({
             key: 'Note1',
             frames: this.anims.generateFrameNumbers('NoteAnims', {start: 0, end: 6, first: 0}),
@@ -85,19 +89,38 @@ class Play extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
+
+        //Explosion animations
         this.anims.create({
-            key: 'explode',
+            key: 'explosion',
             frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 9, first: 0}),
             frameRate: 30
         });
-        //Note Animation
+
         this.anims.create({
-            key: 'NoteAnims',
-            frames: this.anims.generateFrameNumbers('NoteAnims', {start: 0, end: 4, first: 0}),
+            key: 'explode',
+            frames: this.anims.generateFrameNumbers('explode', {start: 0, end: 9, first: 0}),
             frameRate: 30
         });
 
+        this.anims.create({
+            key: 'explode2',
+            frames: this.anims.generateFrameNumbers('explode2', {start: 0, end: 9, first: 0}),
+            frameRate: 30
+        });
 
+        this.anims.create({
+            key: 'explode3',
+            frames: this.anims.generateFrameNumbers('explode3', {start: 0, end: 9, first: 0}),
+            frameRate: 30
+        });
+
+        this.anims.create({
+            key: 'explode4',
+            frames: this.anims.generateFrameNumbers('explode4', {start: 0, end: 9, first: 0}),
+            frameRate: 30
+        });
+      
         this.p1Score = 0;
         //color change for scores and words
         let scoreConfig = {
@@ -105,12 +128,12 @@ class Play extends Phaser.Scene {
             fontSize: '28px',
             backgroundColor: '#6E1527',
             color: '#E9DDDF',
-            align: 'right',
+            align: 'left',
             padding: {
                 top: 5,
                 bottom: 5,
             },
-            fixedWidth: 30
+            fixedWidth: 50
             
         }
         //Timer Config
@@ -171,12 +194,14 @@ class Play extends Phaser.Scene {
             this.gameOver = true;
         }, null, this);
 
+
+        //countdown
         this.countdown;
         this.timer = this.add.text(borderUISize+50 + borderPadding*35, borderUISize + borderPadding*2, 'Time: ' + this.countdown, TimerConfig);
     }
 
     update(){
-
+        //added stop playing music when restarting or switching scenes
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.background.stop();
             this.scene.restart();
@@ -226,8 +251,23 @@ class Play extends Phaser.Scene {
 
         ship.alpha = 0;
 
-        let boom = this.add.sprite(ship.x, ship.y, 'explode').setOrigin(0,0);
-        boom.anims.play('explode');
+        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0,0);
+        
+        //random explosion generator
+        var randomNum = Phaser.Math.Between(0,4);
+        if(randomNum == 1 || randomNum == 0){
+            boom.anims.play('explode');
+        }
+        else if (randomNum == 2){
+            boom.anims.play('explode2');
+        }
+        else if (randomNum == 3){
+            boom.anims.play('explode3');
+        }
+        else if (randomNum == 4){
+            boom.anims.play('explode4');
+        }
+
         boom.on('animationcomplete', () => {
             ship.reset();
             ship.alpha = 1;

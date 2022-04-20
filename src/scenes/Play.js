@@ -1,3 +1,6 @@
+//Denae, Rocket Patrol Modded, 4/19/2022, 4 days to complete
+//Background music and title music by Punch Deck - Maximalism(copyright free)
+
 class Play extends Phaser.Scene {
     constructor() {
         super('playScene');
